@@ -8,6 +8,7 @@ import {
   Archive,
   Brain,
   CalendarClock,
+  Flame,
   Menu,
   Search,
   Settings,
@@ -64,9 +65,10 @@ interface SidebarProps {
   onOpenApps: () => void;
   onOpenSkills: () => void;
   onOpenAutomations: () => void;
+  onOpenDashboard?: () => void;
   onSettingsIntent?: () => void;
   onOpenSearch: () => void;
-  activeUtility?: "apps" | "skills" | "automations" | null;
+  activeUtility?: "apps" | "skills" | "automations" | "dashboard" | null;
   onToggleArchived: () => void;
   onCollapse: () => void;
   onExpand?: () => void;
@@ -220,6 +222,14 @@ export function Sidebar(props: SidebarProps) {
           active={props.activeUtility === "automations"}
           selectionRef={activeActionRef}
           icon={<CalendarClock className="h-4 w-4" />}
+        />
+        <SidebarActionButton
+          collapsed={collapsed}
+          label="Life OS Dashboard"
+          onClick={props.onOpenDashboard ?? (() => {})}
+          active={props.activeUtility === "dashboard"}
+          selectionRef={activeActionRef}
+          icon={<Flame className="h-4 w-4 text-orange-500" />}
         />
         {props.archivedCount ? (
           <SidebarActionButton

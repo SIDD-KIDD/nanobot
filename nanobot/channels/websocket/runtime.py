@@ -25,6 +25,7 @@ from nanobot.bus.events import (
     OutboundMessage,
 )
 from nanobot.bus.outbound_events import (
+    FileSavedEvent,
     GoalStateSyncEvent,
     GoalStatusEvent,
     ProgressEvent,
@@ -1463,6 +1464,10 @@ class WebSocketChannel(BaseChannel):
                     scope=event.scope,
                 )
             return
+        if isinstance(event, FileSavedEvent):
+            if conns:
+                await self.send_file_saved(msg.chat_id, event.path)
+            return
         if progress_event and progress_event.file_edit_events:
             await self.send_file_edit_events(
                 msg.chat_id,
@@ -1748,6 +1753,16 @@ class WebSocketChannel(BaseChannel):
         raw = json.dumps(body, ensure_ascii=False)
         for connection in conns:
             await self._safe_send_to(connection, raw, label=" session_updated ")
+
+    async def send_file_saved(self, chat_id: str, path: str) -> None:
+        """Notify WebUI clients that a file was saved."""
+        conns = list(self._conn_chats)
+        if not conns:
+            return
+        body: dict[str, Any] = {"event": "file_saved", "chat_id": chat_id, "path": path}
+        raw = json.dumps(body, ensure_ascii=False)
+        for connection in conns:
+            await self._safe_send_to(connection, raw, label=" file_saved ")
 
     async def send_runtime_model_updated(
         self,

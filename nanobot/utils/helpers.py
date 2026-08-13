@@ -857,21 +857,30 @@ def sync_workspace_templates(workspace: Path, silent: bool = False) -> list[str]
 
     added: list[str] = []
 
-    def _write(src: Any, dest: Path) -> None:
-        content = src.read_text(encoding="utf-8") if src else ""
-        if dest.exists():
-            return
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        dest.write_text(content, encoding="utf-8")
-        added.append(str(dest.relative_to(workspace)))
+    def _sync_dir(src: Any, dest: Path) -> None:
+        for item in src.iterdir():
+            if item.name.startswith(".") or item.name == "__init__.py" or item.name == "__pycache__":
+                continue
+            dest_item = dest / item.name
+            if item.is_dir():
+                _sync_dir(item, dest_item)
+            elif item.is_file():
+                if dest_item.exists():
+                    continue
+                content = item.read_text(encoding="utf-8")
+                dest_item.parent.mkdir(parents=True, exist_ok=True)
+                dest_item.write_text(content, encoding="utf-8")
+                added.append(str(dest_item.relative_to(workspace)))
 
-    for item in tpl.iterdir():
-        if item.name.endswith(".md") and not item.name.startswith("."):
-            _write(item, workspace / item.name)
-    _write(tpl / "memory" / "MEMORY.md", workspace / "memory" / "MEMORY.md")
-    _write(tpl / "prompts" / "README.md", workspace / "prompts" / "README.md")
-    _write(None, workspace / "memory" / "history.jsonl")
-    (workspace / "skills").mkdir(exist_ok=True)
+    _sync_dir(tpl, workspace)
+
+    # Ensure history.jsonl exists in the memory directory
+    history_file = workspace / "memory" / "history.jsonl"
+    if not history_file.exists():
+        history_file.parent.mkdir(parents=True, exist_ok=True)
+        history_file.touch()
+        added.append(str(history_file.relative_to(workspace)))
+
 
     if added and not silent:
         from rich.console import Console

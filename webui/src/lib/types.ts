@@ -1296,10 +1296,14 @@ export type InboundEvent =
       chat_id: string;
       scope?: "metadata" | "thread" | string;
       workspace_scope?: WorkspaceScopePayload;
-    }
   | {
       event: "sidebar_state_updated";
       state: SidebarStatePayload;
+    }
+  | {
+      event: "file_saved";
+      chat_id: string;
+      path: string;
     }
   | { event: "transcription_result"; request_id: string; text: string }
   | {

@@ -74,6 +74,7 @@ type SessionUpdateHandler = (
   workspaceScope?: WorkspaceScopePayload,
 ) => void;
 type SidebarStateUpdateHandler = (state: SidebarStatePayload) => void;
+type FileSavedHandler = (chatId: string, path: string) => void;
 type RunStatusHandler = (chatId: string, startedAt: number | null) => void;
 
 /** Structured errors surfaced to the UI.
@@ -180,6 +181,7 @@ export class NanobotClient {
   private runtimeModelHandlers = new Set<RuntimeModelHandler>();
   private sessionUpdateHandlers = new Set<SessionUpdateHandler>();
   private sidebarStateUpdateHandlers = new Set<SidebarStateUpdateHandler>();
+  private fileSavedHandlers = new Set<FileSavedHandler>();
   private runStatusHandlers = new Set<RunStatusHandler>();
   private errorHandlers = new Set<ErrorHandler>();
   // chat_id -> handlers listening on it
@@ -281,6 +283,13 @@ export class NanobotClient {
     this.sidebarStateUpdateHandlers.add(handler);
     return () => {
       this.sidebarStateUpdateHandlers.delete(handler);
+    };
+  }
+
+  onFileSaved(handler: FileSavedHandler): Unsubscribe {
+    this.fileSavedHandlers.add(handler);
+    return () => {
+      this.fileSavedHandlers.delete(handler);
     };
   }
 
@@ -1160,6 +1169,14 @@ export class NanobotClient {
 
     if (parsed.event === "sidebar_state_updated") {
       this.emitSidebarStateUpdate(parsed.state);
+      return;
+    }
+
+    if (parsed.event === "file_saved") {
+      for (const handler of this.fileSavedHandlers) {
+        handler(parsed.chat_id, parsed.path);
+      }
+      this.dispatch(parsed.chat_id, parsed);
       return;
     }
 

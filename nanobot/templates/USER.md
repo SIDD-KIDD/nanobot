@@ -1,49 +1,22 @@
 # User Profile
 
-Information about the user to help personalize interactions.
-
 ## Basic Information
 
 - **Name**: (your name)
-- **Timezone**: (your timezone, e.g., UTC+8)
-- **Language**: (preferred language)
+- **Timezone**: (your timezone)
+- **Language**: English
 
-## Preferences
+## Life Area Priorities & State
 
-### Communication Style
+- **Primary Goals**: (To be defined during onboarding)
 
-- [ ] Casual
-- [ ] Professional
-- [ ] Technical
+## Observed Behavioral & Productivity Patterns
+<!-- Maintained and updated automatically by Dream -->
 
-### Response Length
+- **Productivity Hours**: (To be tracked & evolved)
+- **Procrastination Triggers**: (To be tracked & evolved)
 
-- [ ] Brief and concise
-- [ ] Detailed explanations
-- [ ] Adaptive based on question
+## Communication Preferences
 
-### Technical Level
-
-- [ ] Beginner
-- [ ] Intermediate
-- [ ] Expert
-
-## Work Context
-
-- **Primary Role**: (your role, e.g., developer, researcher)
-- **Main Projects**: (what you're working on)
-- **Tools You Use**: (IDEs, languages, frameworks)
-
-## Topics of Interest
-
-- 
-- 
-- 
-
-## Special Instructions
-
-(Any specific instructions for how the assistant should behave)
-
----
-
-*Edit this file to customize nanobot's behavior for your needs.*
+- **Tone**: Direct, authentic, supportive
+- **Response Style**: Channel-adaptive (concise on mobile, structured on WebUI)

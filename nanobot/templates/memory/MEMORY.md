@@ -1,23 +1,10 @@
-# Long-term Memory
+# Long-Term Memory & Life OS State
 
-This file stores important information that should persist across sessions.
+## Active Primary Goals
+<!-- User goals will be recorded here during onboarding -->
 
-## User Information
+## Knowledge Base & Second Brain
+<!-- Ideas, notes, links, and learnings stored conversationally -->
 
-(Important facts about the user)
-
-## Preferences
-
-(User preferences learned over time)
-
-## Project Context
-
-(Information about ongoing projects)
-
-## Important Notes
-
-(Things to remember)
-
----
-
-*This file is automatically updated by nanobot when important information should be remembered.*
+## Accountability Ledger
+<!-- Records of stated commitments vs actual activities -->

@@ -77,6 +77,11 @@ class SessionUpdatedEvent(OutboundEvent):
 
 
 @dataclass(frozen=True)
+class FileSavedEvent(OutboundEvent):
+    path: str
+
+
+@dataclass(frozen=True)
 class RuntimeModelUpdatedEvent(OutboundEvent):
     model: str | None
     model_preset: str | None = None
@@ -174,6 +179,8 @@ def _legacy_event_from_metadata(msg: OutboundMessage) -> OutboundEvent | None:
         )
     if meta.get("_session_updated"):
         return SessionUpdatedEvent(scope=_metadata_str(meta, "_session_update_scope"))
+    if meta.get("_file_saved"):
+        return FileSavedEvent(path=_metadata_str(meta, "path") or "")
     if meta.get("_retry_wait"):
         return RetryWaitEvent(content=msg.content)
     if meta.get("_stream_end"):
