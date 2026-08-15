@@ -467,11 +467,11 @@ export interface ProviderModelsPayload {
   provider: string;
   label: string;
   status:
-    | "available"
-    | "unsupported"
-    | "not_configured"
-    | "missing_api_base"
-    | "error";
+  | "available"
+  | "unsupported"
+  | "not_configured"
+  | "missing_api_base"
+  | "error";
   catalog_kind: "builtin" | "official" | "catalog" | "local" | "custom" | "unsupported";
   models: ProviderModelInfo[];
   model_count: number;
@@ -1208,130 +1208,131 @@ export type InboundEvent =
   | { event: "attached"; chat_id: string; temporary?: boolean }
   | { event: "message_accepted"; chat_id: string; turn_id: string }
   | ({
-      event: "message";
-      chat_id: string;
-      text: string;
-      reply_to?: string;
-      media?: string[];
-      media_urls?: Array<{ url: string; name?: string }>;
-      tool_events?: ToolProgressEvent[];
-      /** Present when the frame is an agent breadcrumb (e.g. tool hint,
-       * generic progress line) rather than a conversational reply. */
-      kind?: "tool_hint" | "progress" | "reasoning";
-      /** Server-measured turn wall time when this frame finishes an assistant reply. */
-      latency_ms?: number;
-      /** Lightweight provenance for proactive assistant messages. */
-      source?: UIMessageSource;
-      /** Optional structured payload on progress frames (channel-specific). */
-      agent_ui?: AgentUIBlob;
-    } & InboundTurnMetadata)
+    event: "message";
+    chat_id: string;
+    text: string;
+    reply_to?: string;
+    media?: string[];
+    media_urls?: Array<{ url: string; name?: string }>;
+    tool_events?: ToolProgressEvent[];
+    /** Present when the frame is an agent breadcrumb (e.g. tool hint,
+     * generic progress line) rather than a conversational reply. */
+    kind?: "tool_hint" | "progress" | "reasoning";
+    /** Server-measured turn wall time when this frame finishes an assistant reply. */
+    latency_ms?: number;
+    /** Lightweight provenance for proactive assistant messages. */
+    source?: UIMessageSource;
+    /** Optional structured payload on progress frames (channel-specific). */
+    agent_ui?: AgentUIBlob;
+  } & InboundTurnMetadata)
   | ({
-      event: "file_edit";
-      chat_id: string;
-      edits: UIFileEdit[];
-    } & InboundTurnMetadata)
+    event: "file_edit";
+    chat_id: string;
+    edits: UIFileEdit[];
+  } & InboundTurnMetadata)
   | ({
-      event: "delta";
-      chat_id: string;
-      text: string;
-      stream_id?: string;
-      /** Lightweight provenance for proactive streamed assistant messages. */
-      source?: UIMessageSource;
-    } & InboundTurnMetadata)
+    event: "delta";
+    chat_id: string;
+    text: string;
+    stream_id?: string;
+    /** Lightweight provenance for proactive streamed assistant messages. */
+    source?: UIMessageSource;
+  } & InboundTurnMetadata)
   | ({
-      event: "stream_end";
-      chat_id: string;
-      stream_id?: string;
-      text?: string;
-      /** Lightweight provenance for proactive streamed assistant messages. */
-      source?: UIMessageSource;
-      /** This answer segment ended, but the active agent turn will continue. */
-      resuming?: boolean;
-      /** The next answer segment continues this same assistant message. */
-      merge_next?: boolean;
-    } & InboundTurnMetadata)
+    event: "stream_end";
+    chat_id: string;
+    stream_id?: string;
+    text?: string;
+    /** Lightweight provenance for proactive streamed assistant messages. */
+    source?: UIMessageSource;
+    /** This answer segment ended, but the active agent turn will continue. */
+    resuming?: boolean;
+    /** The next answer segment continues this same assistant message. */
+    merge_next?: boolean;
+  } & InboundTurnMetadata)
   | ({
-      event: "reasoning_delta";
-      chat_id: string;
-      text: string;
-      stream_id?: string;
-    } & InboundTurnMetadata)
+    event: "reasoning_delta";
+    chat_id: string;
+    text: string;
+    stream_id?: string;
+  } & InboundTurnMetadata)
   | ({
-      event: "reasoning_end";
-      chat_id: string;
-      stream_id?: string;
-    } & InboundTurnMetadata)
+    event: "reasoning_end";
+    chat_id: string;
+    stream_id?: string;
+  } & InboundTurnMetadata)
   | {
-      event: "runtime_model_updated";
-      model_name: string;
-      model_preset?: string | null;
-    }
+    event: "runtime_model_updated";
+    model_name: string;
+    model_preset?: string | null;
+  }
   | {
-      event: "turn_model_updated";
-      chat_id: string;
-      model_name: string;
-    }
+    event: "turn_model_updated";
+    chat_id: string;
+    model_name: string;
+  }
   | ({
-      event: "turn_end";
-      chat_id: string;
-      latency_ms?: number;
-      /** Authoritative sustained-goal snapshot for this chat (same shape as ``goal_state`` events). */
-      goal_state?: GoalStateWsPayload;
-    } & InboundTurnMetadata)
+    event: "turn_end";
+    chat_id: string;
+    latency_ms?: number;
+    /** Authoritative sustained-goal snapshot for this chat (same shape as ``goal_state`` events). */
+    goal_state?: GoalStateWsPayload;
+  } & InboundTurnMetadata)
   | ({
-      event: "goal_status";
-      chat_id: string;
-      /** Turn executing (user message through agent loop). */
-      status: "running" | "idle";
-      /** Server ``time.time()`` when ``status`` is ``running``. */
-      started_at?: number;
-    } & InboundTurnMetadata)
+    event: "goal_status";
+    chat_id: string;
+    /** Turn executing (user message through agent loop). */
+    status: "running" | "idle";
+    /** Server ``time.time()`` when ``status`` is ``running``. */
+    started_at?: number;
+  } & InboundTurnMetadata)
   | {
-      event: "goal_state";
-      chat_id: string;
-      goal_state: GoalStateWsPayload;
-    }
+    event: "goal_state";
+    chat_id: string;
+    goal_state: GoalStateWsPayload;
+  }
   | {
-      event: "session_updated";
-      chat_id: string;
-      scope?: "metadata" | "thread" | string;
-      workspace_scope?: WorkspaceScopePayload;
+    event: "session_updated";
+    chat_id: string;
+    scope?: "metadata" | "thread" | string;
+    workspace_scope?: WorkspaceScopePayload;
+  }
   | {
-      event: "sidebar_state_updated";
-      state: SidebarStatePayload;
-    }
+    event: "sidebar_state_updated";
+    state: SidebarStatePayload;
+  }
   | {
-      event: "file_saved";
-      chat_id: string;
-      path: string;
-    }
+    event: "file_saved";
+    chat_id: string;
+    path: string;
+  }
   | { event: "transcription_result"; request_id: string; text: string }
   | {
-      event: "transcription_error";
-      request_id?: string;
-      detail?: string;
-      provider?: string;
-    }
+    event: "transcription_error";
+    request_id?: string;
+    detail?: string;
+    provider?: string;
+  }
   | {
-      event: "webui_response";
-      request_id: string;
-      ok: true;
-      result: unknown;
-    }
+    event: "webui_response";
+    request_id: string;
+    ok: true;
+    result: unknown;
+  }
   | {
-      event: "webui_response";
-      request_id: string;
-      ok: false;
-      error: { status: number; message: string };
-    }
+    event: "webui_response";
+    request_id: string;
+    ok: false;
+    error: { status: number; message: string };
+  }
   | {
-      event: "error";
-      chat_id?: string;
-      detail?: string;
-      reason?: string;
-      /** Present when this error rejects a specific outbound WebUI turn. */
-      turn_id?: string;
-    };
+    event: "error";
+    chat_id?: string;
+    detail?: string;
+    reason?: string;
+    /** Present when this error rejects a specific outbound WebUI turn. */
+    turn_id?: string;
+  };
 
 /** Base64-encoded file attached to an outbound ``message`` envelope.
  *
@@ -1403,11 +1404,11 @@ export type Outbound =
   | { type: "new_chat"; workspace_scope?: WorkspaceScopePayload }
   | { type: "new_temporary_chat" }
   | {
-      type: "webui_request";
-      request_id: string;
-      action: string;
-      payload: Record<string, unknown>;
-    }
+    type: "webui_request";
+    request_id: string;
+    action: string;
+    payload: Record<string, unknown>;
+  }
   | { type: "fork_chat"; source_chat_id: string; before_user_index: number; title?: string }
   | { type: "attach"; chat_id: string }
   | { type: "set_sidebar_state"; state: SidebarStatePayload }
@@ -1415,17 +1416,17 @@ export type Outbound =
   | { type: "set_workspace_scope"; chat_id: string; workspace_scope: WorkspaceScopePayload }
   | { type: "transcribe_audio"; request_id: string; data_url: string; duration_ms?: number }
   | {
-      type: "message";
-      chat_id: string;
-      content: string;
-      media?: OutboundMedia[];
-      cli_apps?: OutboundCliAppMention[];
-      mcp_presets?: OutboundMcpPresetMention[];
-      session_mentions?: SessionMention[];
-      quoted_context?: string;
-      workspace_scope?: WorkspaceScopePayload;
-      turn_id?: string;
-      /** Marks messages sent by the embedded WebUI, without changing the
-       * generic websocket protocol for other clients. */
-      webui?: true;
-    };
+    type: "message";
+    chat_id: string;
+    content: string;
+    media?: OutboundMedia[];
+    cli_apps?: OutboundCliAppMention[];
+    mcp_presets?: OutboundMcpPresetMention[];
+    session_mentions?: SessionMention[];
+    quoted_context?: string;
+    workspace_scope?: WorkspaceScopePayload;
+    turn_id?: string;
+    /** Marks messages sent by the embedded WebUI, without changing the
+     * generic websocket protocol for other clients. */
+    webui?: true;
+  };
